@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload form</title>
+    <style>
+        
+        .dropzone{
+            margin:0px auto;
+            height: 400px;
+            width: 400px;
+            border: 5px dashed #ccc; 
+            border-radius: 15px ;
+            background-color: #fff;
+            position: relative;
+        }
+        .dragged{
+            border-color: #000;
+
+        }
+        #choosefile{
+            display: none;
+
+        }
+        .lab{
+            position: absolute;
+            float: left;
+            top: 50%;
+            left: 10%;
+            font-size: 20px;
+            
+        }
+        .lab:hover{
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="dropzone">
+        <input type="file" name=choosefile"" id="choosefile">
+        <label for="choosefile" class="lab">Drag files here 
+            <strong>
+            or click to select files.
+        </strong> 
+    </label>
+    </div>
+    <script>
+
+        var dropzone = document.querySelector('.dropzone');
+
+             
+            //dragover event
+             dropzone.ondragover = function(){
+                dropzone.className = 'dropzone dragged';
+                return false;
+             };
+             //ondragleave
+             dropzone.ondragleave = function(e){
+                e.preventDefault();
+                dropzone.className = 'dropzone';
+                
+                return false;
+             };
+             //drop
+             dropzone.ondrop = function(e){
+                e.preventDefault();
+                dropzone.className = 'dropzone';
+                files = e.dataTransfer['files'];
+                console.log(files);
+                
+                //XHR PART
+
+                var xhr = new XMLHttpRequest(),
+                    formData = new FormData();
+
+                    formData.append('choosefile', files[0])
+                    console.log(formData);
+                    
+                    try{
+                    xhr.open('POST','upload.php');
+                    xhr.send(formData);
+
+                    
+                        }
+                    catch(e){
+                        var error = e.toString();
+                        console.log(error);
+                        }
+                    xhr.onreadystatechange = function(){
+                    if (xhr.readyState == 4) {
+                            if (xhr.status == 200) {
+
+                        console.log(xhr.responseText);
+                        
+                            }
+                        }
+
+                    }
+                   
+             };
+
+     
+    </script>
+</body>
+</html>

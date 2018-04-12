@@ -1,0 +1,37 @@
+<style>
+    .progress{
+        width: 500px;
+        height: 50px;
+        background-color: pink;
+        border-radius: 5px;
+    }
+    .bar{
+        
+        height: 100%;
+        width: 50%;
+        background-color: green;
+    }
+</style>
+<div class="progress">
+    <div class="bar"></div>
+</div>
+<h1>progress: </h1><p></p>
+<script>
+    function $(element){
+        return document.querySelector(element);
+    }
+
+    var bar = $('.bar'),
+        width = 0;
+    
+    var id = setInterval(animation, 150);
+    function animation(){
+       if (width == 101) {
+        clearInterval(id);
+       }else{
+        width++;
+        bar.style.width =  width + '%';
+        $('p').textContent = width + '%';
+       }
+    }
+</script>
